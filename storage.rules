@@ -1,0 +1,23 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // ── ARCHIVOS DE POSTS ──────────────────────────────────────────────────
+    // Cualquiera puede leer (para ver imágenes, audios, videos, documentos)
+    // Solo usuarios autenticados pueden subir archivos
+    // Límites por tipo:
+    //   imagen    → 10 MB
+    //   audio     → 50 MB
+    //   video     → 200 MB
+    //   documento → 20 MB
+    // Aplicamos el límite más alto (200 MB) a nivel de regla;
+    // el control fino por tipo se hace en el cliente (FILE_MAX_MB en el JS)
+    match /posts/{postId}/{fileName} {
+      allow read: if true;
+      allow create: if request.auth != null
+                    && request.resource.size < 200 * 1024 * 1024;
+      allow delete: if request.auth != null;
+    }
+
+  }
+}
