@@ -1,0 +1,6 @@
+# robots.txt — Blog de 5° Grado · Escuela Hugo Leonelli
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://blog-educativo-c8d35.web.app/sitemap.xml
